@@ -1,6 +1,16 @@
+import { useAuth } from "@clerk/clerk-expo";
+import { Redirect } from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 
 const TabsLayout = () => {
+  const { isSignedIn, isLoaded } = useAuth();
+
+  if (!isLoaded) return null;
+
+  if (!isSignedIn) {
+    return <Redirect href={"/(auth)"} />;
+  }
+
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="index">
