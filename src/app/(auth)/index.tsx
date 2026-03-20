@@ -1,12 +1,12 @@
+import useSocialAuth from "@/hooks/useSocialAuth";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const AuthScreen = () => {
-  const [loadingStrategy, setLoadingStrategy] = useState<string | null>(null);
+  const { handleSocialAuth, loadingStrategy } = useSocialAuth();
   const isLoading = loadingStrategy !== null;
 
   return (
@@ -98,6 +98,7 @@ const AuthScreen = () => {
               style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
               accessibilityRole="button"
               accessibilityLabel="Continue with Google"
+              onPress={() => !isLoading && handleSocialAuth("oauth_google")}
             >
               {loadingStrategy === "oauth_google" ? (
                 <ActivityIndicator size={"small"} color={"#6C5CE7"} />
@@ -117,6 +118,7 @@ const AuthScreen = () => {
               disabled={isLoading}
               accessibilityRole="button"
               accessibilityLabel="Continue with Apple"
+              onPress={() => !isLoading && handleSocialAuth("oauth_apple")}
             >
               {loadingStrategy === "oauth_apple" ? (
                 <ActivityIndicator size="small" color="#6C5CE7" />
@@ -132,6 +134,7 @@ const AuthScreen = () => {
               disabled={isLoading}
               accessibilityRole="button"
               accessibilityLabel="Continue with GitHub"
+              onPress={() => !isLoading && handleSocialAuth("oauth_github")}
             >
               {loadingStrategy === "oauth_github" ? (
                 <ActivityIndicator size="small" color="#6C5CE7" />
